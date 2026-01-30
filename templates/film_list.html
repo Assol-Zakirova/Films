@@ -1,0 +1,22 @@
+<style> 
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+
+<table>
+  <tr>
+      <th> Title </th>
+      <th> Episodes </th>
+      <th> Genre </th>
+  </tr>
+ 
+  {% for film in films %}
+  <tr>
+      <td> {{film.title}} </td>
+      <td> {{film.episodes}} </td>
+      <td> {{film.genre}} </td>
+  </tr>
+  {% endfor %}
+
+</table>
