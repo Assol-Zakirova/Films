@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<style> 
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+
+<table>
+  <tr>
+      <th> Title </th>
+      <th> Episodes </th>
+      <th> View details</th>
+  </tr>
+ 
+  {% for film in films %}
+  <tr>
+      <td> {{film.title}} </td>
+      <td> {{film.episodes}} </td>
+      <td><a href='/films/{{film.id}}/' class = 'btn btn-primary'>details</a></td>
+  </tr>
+  {% endfor %}
+  {% endblock %}
+</table>

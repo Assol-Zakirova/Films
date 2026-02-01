@@ -1,3 +1,6 @@
+
+{% extends 'base.html' %}
+{% block content %}
 <style> 
 table, th, td {
   border: 1px solid black;
@@ -9,14 +12,14 @@ table, th, td {
       <th> Title </th>
       <th> Episodes </th>
       <th> Genre </th>
+      <th> Description </th>
   </tr>
  
-  {% for film in films %}
   <tr>
       <td> {{film.title}} </td>
       <td> {{film.episodes}} </td>
-      <td> {{film.genre}} </td>
+      <td> {{film.category}} </td>
+      <td> {{film.description}} </td>
   </tr>
-  {% endfor %}
-
+  {% endblock %}
 </table>
