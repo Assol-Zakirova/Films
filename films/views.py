@@ -16,7 +16,8 @@ def film_create(request):
     elif request.method == 'POST':
         Film.objects.create(
             title=request.POST.get('title'),
-            episodes=request.POST.get('episodes') 
+            episodes=request.POST.get('episodes'),
+            image=request.FILES.get('image')
         )
         return redirect('/films/')
 
