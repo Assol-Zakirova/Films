@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from films.models import Film, Category
+from films.forms import CreateFilmForm
+from django.http import HttpResponse
+
 # Create your views here.
 
 def film_list(request):
@@ -12,15 +15,18 @@ def film_list(request):
 
 def film_create(request):
     if request.method == 'GET':
-        return render(request, 'films/film_create.html')
+        forms = CreateFilmForm()
+        return render(request, 'films/film_create.html', context={'forms':forms})
     elif request.method == 'POST':
-        Film.objects.create(
-            title=request.POST.get('title'),
-            episodes=request.POST.get('episodes'),
-            image=request.FILES.get('image')
-        )
-        return redirect('/films/')
-
+        forms = CreateFilmForm(request.POST, request.FILES)
+        if forms.is_valid():
+            Film.objects.create(
+                title=forms.cleaned_data.get('name'),
+                episodes=forms.cleaned_data.get('episodes'),
+                image=forms.cleaned_data.get('image')
+            )
+            return redirect('/films/')
+        return HttpResponse('Error')
 
 def base(request):
     if request.method == 'GET':

@@ -19,11 +19,15 @@ from django.urls import path
 from films.views import film_list, base, film_detail, film_create
 from django.conf.urls import static
 from django.conf import settings
+from users.views import register 
+users = [
+    path('register/', register)
+]
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('films/', film_list),
     path('films/<int:film_id>/', film_detail),
     path('', base),
-    
-    path('film_create/', film_create )
+    path('film_create/', film_create ),
+    *users 
 ]+static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
