@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from users.forms import RegisterForms
+from django.shortcuts import render, redirect
+from users.forms import RegisterForms, LoginForms
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def register(request):
@@ -10,11 +11,28 @@ def register(request):
         return render(request, 'users/register.html', context={'forms':forms})
     elif request.method == 'POST':
         forms = RegisterForms(request.POST)
-        if not forms.is_valid:
+        if not forms.is_valid():
             return HttpResponse('Error')
-        user = User.objects.create_user(
+        User.objects.create_user(
             username=forms.cleaned_data.get('username'),
             password = forms.cleaned_data.get('password')
         )
 
-    return render(request, 'users/register.html' )
+    return redirect('/films/')
+
+def login_user(request):
+    if request.method == 'GET':
+        forms = LoginForms()
+        return render(request, 'users/login.html', context={'forms':forms})
+    if request.method == 'POST':
+        forms = LoginForms(request.POST)
+        if not forms.is_valid():
+            return HttpResponse('Error')
+        user = authenticate(request, username=forms.cleaned_data.get('username'), password=forms.cleaned_data.get('password'))
+        login(request, user)
+    return redirect('/films/') 
+
+def logout_user(request):
+    logout(request)
+    return redirect('/')
+
