@@ -19,11 +19,13 @@ from django.urls import path
 from films.views import film_list, base, film_detail, film_create
 from django.conf.urls import static
 from django.conf import settings
-from users.views import register, login_user, logout_user
+from users.views import register, login_user, logout_user, update_user, delete_user
 users = [
     path('register/', register),
     path('login/', login_user),
-    path('logout/', logout_user)
+    path('logout/', logout_user),
+    path('settings/', update_user),
+    path('delete/', delete_user)
 ]
 urlpatterns = [
     path('admin/', admin.site.urls),

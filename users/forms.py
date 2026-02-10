@@ -16,3 +16,16 @@ class RegisterForms(forms.Form):
 class LoginForms(forms.Form):
     username = forms.CharField(required=True)
     password = forms.CharField(required=True)
+
+class UpdateForm(forms.Form):
+    username = forms.CharField(required=True)
+    password = forms.CharField(required=True) 
+    password_confirm = forms.CharField(required=True)
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        password = cleaned_data.get('password')
+        password_confirm = cleaned_data.get('password_confirm')
+        if password != password_confirm:
+            raise forms.ValidationError('Passwords do not match')
+        return cleaned_data
