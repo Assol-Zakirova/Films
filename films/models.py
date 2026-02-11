@@ -3,8 +3,8 @@ from django.db import models
 # Create your models here.
 class Category(models.Model):
     rating = models.IntegerField(default=0, null=True)
-    def __repr__(self):
-        return self.rating
+    def __str__(self):
+        return f'Rating {self.rating}'
 class Genre(models.Model):
     name = models.CharField(max_length=255)
     def __str__(self):

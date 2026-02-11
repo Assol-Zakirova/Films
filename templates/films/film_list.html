@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+<form method="GET" action="" enctype="multipart/form-data">
+    {{forms.as_p}}
+    <button type='submit'> Search </button> 
+</form>
+
 {% for film in films %}
 <div class="card" style="width: 18rem;">
     {% if film.image %}
