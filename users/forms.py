@@ -29,3 +29,11 @@ class UpdateForm(forms.Form):
         if password != password_confirm:
             raise forms.ValidationError('Passwords do not match')
         return cleaned_data
+
+class UpdateProfileForm(forms.Form):
+    username = forms.CharField(required=True)
+    email = forms.EmailField(required=False)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    age = forms.IntegerField(required=True)
+    image = forms.ImageField(required=False)

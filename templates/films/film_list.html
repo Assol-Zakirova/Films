@@ -16,8 +16,19 @@
         <h5 class="card-title">{{ film.title }}</h5>
         <p class="card-text">{{ film.episodes }}</p>
         <a href="{{film.id}}" class="btn btn-primary">See details</a>
+        <a href="/delete_film/{{film.id}}" class="btn btn-primary">Delete</a>
 
     </div>
 </div>
 {% endfor %}
+
+<nav aria-label="...">
+    <ul class="pagination pagination-lg">
+        {% for page in list_pages %}
+        <li class="page-item">
+            <a class="page-link" aria-current="page" href="/films/?page={{ page }}">{{ page }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
 {% endblock %}

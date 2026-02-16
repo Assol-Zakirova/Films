@@ -7,6 +7,7 @@ from django.db.models import Q
 # Create your views here.
 @login_required(login_url="/login/")
 def film_list(request):
+    limit = 3
     if request.method == 'GET':
         films = Film.objects.all()
         forms = SearchForm()
@@ -25,7 +26,14 @@ def film_list(request):
         genre = request.GET.getlist("genre")
         if genre:
             films = Film.objects.filter(genre__in=genre)
-        return render(request, "films/film_list.html", context={"films": films, 'forms': forms})
+        page = int(request.GET.get('page')) if request.GET.get('page') else 1
+        total = films.count()
+        max_page = (total + limit - 1) // limit
+        start = (page - 1) * limit
+        stop = page * limit
+        list_pages = range(1, max_page + 1)
+        films = films[start: stop]
+        return render(request, "films/film_list.html", context={"films": films, 'forms': forms, 'list_pages': list_pages})
 @login_required(login_url="/login/")
 def film_create(request):
     if request.method == 'GET':
@@ -35,6 +43,7 @@ def film_create(request):
         forms = CreateFilmForm(request.POST, request.FILES)
         if forms.is_valid():
             Film.objects.create(
+                profile = request.user.profile,
                 title=forms.cleaned_data.get('name'),
                 episodes=forms.cleaned_data.get('episodes'),
                 image=forms.cleaned_data.get('image')
@@ -52,4 +61,11 @@ def film_detail(request, film_id):
     if request.method == 'GET':
         film = Film.objects.get(id=film_id)
         return render(request, "films/film_detail.html", context={'film': film})
+
+def delete_film(request, film_id):
+    film = Film.objects.get(id=film_id)
+    if request.user.profile != film.profile:
+        return HttpResponse('Permission denied')
+    film.delete()
+    return redirect('/films/')
 
