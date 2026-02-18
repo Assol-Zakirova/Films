@@ -16,10 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from films.views import film_list, base, film_detail, film_create, delete_film
+from films.views import film_list, base, film_detail, film_create, delete_film, FilmListView, FilmCreateView, BaseView, DetailView, FilmDeleteView
 from django.conf.urls import static
 from django.conf import settings
 from users.views import register, login_user, logout_user, update_user, delete_user, profile, update_profile
+class_urls = [
+    path("class/films/", FilmListView.as_view()),
+    path('class/film_create', FilmCreateView.as_view()),
+    path('class/base', BaseView.as_view()),
+    path("class/films/<int:film_id>/", DetailView.as_view()),
+    path("class/film_delete/<int:film_id>/", FilmDeleteView.as_view())
+
+    ]
+
 users = [
     path('register/', register),
     path('login/', login_user),
@@ -36,5 +45,5 @@ urlpatterns = [
     path('', base),
     path('film_create/', film_create ),
     path('delete_film/<int:film_id>/', delete_film),
-    *users 
+    *users, *class_urls 
 ]+static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

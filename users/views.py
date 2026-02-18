@@ -71,6 +71,7 @@ def profile(request):
 def update_profile(request):
     if request.method == "GET":
         forms = UpdateProfileForm(request.POST or None)
+        print(request.POST)
         return render(request, "users/update_profile.html", context={"forms": forms})
 
     if request.method == "POST":
